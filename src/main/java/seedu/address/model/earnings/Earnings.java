@@ -55,6 +55,7 @@ public class Earnings {
     public static Amount getTotalEarnings() {
         return totalEarnings;
     }
+
     /**
      * Returns true if both earnings of the same date and classId have an identity field that is the same.
      * This defines a weaker notion of equality between two earnings.

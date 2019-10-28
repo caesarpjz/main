@@ -16,6 +16,7 @@ import org.junit.jupiter.api.Test;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import seedu.address.model.account.AccountData;
 import seedu.address.model.commands.CommandObject;
 import seedu.address.model.earnings.Earnings;
 import seedu.address.model.note.Notes;
@@ -96,6 +97,7 @@ public class AddressBookTest {
         private final ObservableList<CommandObject> commands = FXCollections.observableArrayList();
         private final ObservableList<Reminder> reminder = FXCollections.observableArrayList();
         private final ObservableList<Notes> notes = FXCollections.observableArrayList();
+        private final ObservableList<AccountData> accountData = FXCollections.observableArrayList();
 
         AddressBookStub(Collection<Person> persons) {
             this.persons.setAll(persons);
@@ -129,6 +131,11 @@ public class AddressBookTest {
         @Override
         public ObservableList<Notes> getNotesList() {
             return notes;
+        }
+
+        @Override
+        public ObservableList<AccountData> getAccountDataList() {
+            return accountData;
         }
     }
 

@@ -5,6 +5,8 @@ import static java.util.Objects.requireNonNull;
 import java.util.List;
 
 import javafx.collections.ObservableList;
+import seedu.address.model.account.AccountData;
+import seedu.address.model.account.AccountsDataList;
 import seedu.address.model.commands.CommandObject;
 import seedu.address.model.commands.UniqueCommandsList;
 import seedu.address.model.earnings.Earnings;
@@ -24,6 +26,7 @@ import seedu.address.model.task.TaskList;
  */
 public class AddressBook implements ReadOnlyAddressBook {
 
+    private final AccountsDataList accountsDataList;
     private final UniquePersonList persons;
     private final UniqueEarningsList earning;
     private final UniqueCommandsList commands;
@@ -39,6 +42,7 @@ public class AddressBook implements ReadOnlyAddressBook {
      *   among constructors.
      */
     {
+        accountsDataList = new AccountsDataList();
         persons = new UniquePersonList();
         earning = new UniqueEarningsList();
         commands = new UniqueCommandsList();
@@ -244,6 +248,22 @@ public class AddressBook implements ReadOnlyAddressBook {
     }
 
     /**
+     * Returns true if a person with the same identity as {@code person} exists in the address book.
+     */
+    public boolean hasAccountData(AccountData accountData) {
+        requireNonNull(accountData);
+        return accountsDataList.contains(accountData);
+    }
+
+    /**
+     * Adds a person to the address book.
+     * The person must not already exist in the address book.
+     */
+    public void addAccountData(AccountData a) {
+        accountsDataList.add(a);
+    }
+
+    /**
      * Adds a person to the address book.
      * The person must not already exist in the address book.
      */
@@ -331,6 +351,11 @@ public class AddressBook implements ReadOnlyAddressBook {
     @Override
     public ObservableList<Notes> getNotesList() {
         return notes.asUnmodifiableObservableList();
+    }
+
+    @Override
+    public ObservableList<AccountData> getAccountDataList() {
+        return accountsDataList.asUnmodifiableObservableList();
     }
 
     @Override
