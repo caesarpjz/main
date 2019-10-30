@@ -1,4 +1,384 @@
 package seedu.address.ui;
 
-public class EarningsPopUpWindow {
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextInputControl;
+import javafx.scene.input.KeyCombination;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+import seedu.address.commons.core.GuiSettings;
+import seedu.address.commons.core.LogsCenter;
+import seedu.address.logic.Logic;
+import seedu.address.logic.commands.CommandResult;
+import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.logic.parser.exceptions.ParseException;
+
+import java.util.logging.Logger;
+
+public class EarningsPopUpWindow extends UiPart<Stage> {
+
+
+    private static final String FXML = "EarningsPopUpWindow.fxml";
+
+    private final Logger logger = LogsCenter.getLogger(getClass());
+
+    private Stage primaryStage;
+    private Logic logic;
+    private LoginWindow loginWindow;
+    private boolean unknown;
+
+    // Independent Ui parts residing in this Ui container
+    private EarningsListPanel earningsListPanel;
+    private ReminderListPanel reminderListPanel;
+    private PersonListPanel personListPanel;
+    private TaskListPanel taskListPanel;
+    private ResultDisplay resultDisplay;
+    private HelpWindow helpWindow;
+    private ReminderWindow reminderWindow;
+    private ReminderBox reminderBox;
+    private NotesListPanel notesListPanel;
+
+    @javafx.fxml.FXML
+    private StackPane commandBoxPlaceholder;
+
+    @FXML
+    private MenuItem helpMenuItem;
+
+    @FXML
+    private StackPane personListPanelPlaceholder;
+
+    @FXML
+    private StackPane resultDisplayPlaceholder;
+
+    @FXML
+    private StackPane reminderBoxPlaceholder;
+
+    @FXML
+    private StackPane statusbarPlaceholder;
+
+
+    public EarningsPopUpWindow(Stage primaryStage, Logic logic) {
+        super(FXML, primaryStage);
+
+        // Set dependencies
+        this.primaryStage = primaryStage;
+        this.logic = logic;
+
+        // Configure the UI
+        setWindowDefaultSize(logic.getGuiSettings());
+
+        setAccelerators();
+    }
+
+    public Stage getPrimaryStage() {
+        return primaryStage;
+    }
+
+    private void setAccelerators() {
+        setAccelerator(helpMenuItem, KeyCombination.valueOf("F1"));
+    }
+
+    /**
+     * Sets the accelerator of a MenuItem.
+     * @param keyCombination the KeyCombination value of the accelerator
+     */
+    private void setAccelerator(MenuItem menuItem, KeyCombination keyCombination) {
+        menuItem.setAccelerator(keyCombination);
+
+        /*
+         * TODO: the code below can be removed once the bug reported here
+         * https://bugs.openjdk.java.net/browse/JDK-8131666
+         * is fixed in later version of SDK.
+         *
+         * According to the bug report, TextInputControl (TextField, TextArea) will
+         * consume function-key events. Because CommandBox contains a TextField, and
+         * ResultDisplay contains a TextArea, thus some accelerators (e.g F1) will
+         * not work when the focus is in them because the key event is consumed by
+         * the TextInputControl(s).
+         *
+         * For now, we add following event filter to capture such key events and open
+         * help window purposely so to support accelerators even when focus is
+         * in CommandBox or ResultDisplay.
+         */
+        getRoot().addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+            if (event.getTarget() instanceof TextInputControl && keyCombination.match(event)) {
+                menuItem.getOnAction().handle(new ActionEvent());
+                event.consume();
+            }
+        });
+    }
+
+    /**
+     * Fills up all the placeholders of this window.
+     */
+    void fillStudents() {
+        personListPanel = new PersonListPanel(logic.getFilteredPersonList());
+        personListPanelPlaceholder.getChildren().add(personListPanel.getRoot());
+
+        resultDisplay = new ResultDisplay();
+        resultDisplayPlaceholder.getChildren().add(resultDisplay.getRoot());
+
+        reminderBox = new ReminderBox();
+        //reminderBoxPlaceholder.getChildren().add(reminderBox.getRoot());
+
+        StatusBarFooter statusBarFooter = new StatusBarFooter(logic.getAddressBookFilePath());
+        statusbarPlaceholder.getChildren().add(statusBarFooter.getRoot());
+
+        CommandBox commandBox = new CommandBox(this::executeCommand);
+        commandBoxPlaceholder.getChildren().add(commandBox.getRoot());
+    }
+
+    /**
+     * Fills up all the placeholders with earnings list in the window.
+     */
+    void fillEarnings() {
+        earningsListPanel = new EarningsListPanel(logic.getFilteredEarningsList());
+        personListPanelPlaceholder.getChildren().add(earningsListPanel.getRoot());
+
+        resultDisplay = new ResultDisplay();
+        resultDisplayPlaceholder.getChildren().add(resultDisplay.getRoot());
+
+        reminderBox = new ReminderBox();
+        //reminderBoxPlaceholder.getChildren().add(reminderBox.getRoot());
+
+        StatusBarFooter statusBarFooter = new StatusBarFooter(logic.getAddressBookFilePath());
+        statusbarPlaceholder.getChildren().add(statusBarFooter.getRoot());
+
+        CommandBox commandBox = new CommandBox(this::executeCommand);
+        commandBoxPlaceholder.getChildren().add(commandBox.getRoot());
+    }
+
+    /**
+     * Fills up all the placeholders with reminders list in the window.
+     */
+    void fillReminders() {
+        reminderListPanel = new ReminderListPanel(logic.getFilteredReminderList());
+        personListPanelPlaceholder.getChildren().add(reminderListPanel.getRoot());
+
+        resultDisplay = new ResultDisplay();
+        resultDisplayPlaceholder.getChildren().add(resultDisplay.getRoot());
+
+        reminderBox = new ReminderBox();
+        //reminderBoxPlaceholder.getChildren().add(reminderBox.getRoot());
+
+        StatusBarFooter statusBarFooter = new StatusBarFooter(logic.getAddressBookFilePath());
+        statusbarPlaceholder.getChildren().add(statusBarFooter.getRoot());
+
+        CommandBox commandBox = new CommandBox(this::executeCommand);
+        commandBoxPlaceholder.getChildren().add(commandBox.getRoot());
+    }
+
+    /**
+     * Fills up all the placeholders of this window.
+     */
+    void fillTasks() {
+        taskListPanel = new TaskListPanel(logic.getFilteredTaskList());
+        personListPanelPlaceholder.getChildren().add(taskListPanel.getRoot());
+
+        resultDisplay = new ResultDisplay();
+        resultDisplayPlaceholder.getChildren().add(resultDisplay.getRoot());
+
+        reminderBox = new ReminderBox();
+        //reminderBoxPlaceholder.getChildren().add(reminderBox.getRoot());
+
+        StatusBarFooter statusBarFooter = new StatusBarFooter(logic.getAddressBookFilePath());
+        statusbarPlaceholder.getChildren().add(statusBarFooter.getRoot());
+
+        CommandBox commandBox = new CommandBox(this::executeCommand);
+        commandBoxPlaceholder.getChildren().add(commandBox.getRoot());
+    }
+
+    /**
+     * Fills up all the placeholders of this window.
+     */
+    void fillNotes() {
+        notesListPanel = new NotesListPanel(logic.getFilteredNotesList());
+        personListPanelPlaceholder.getChildren().add(notesListPanel.getRoot());
+
+        resultDisplay = new ResultDisplay();
+        resultDisplayPlaceholder.getChildren().add(resultDisplay.getRoot());
+
+        reminderBox = new ReminderBox();
+        //reminderBoxPlaceholder.getChildren().add(reminderBox.getRoot());
+
+        StatusBarFooter statusBarFooter = new StatusBarFooter(logic.getAddressBookFilePath());
+        statusbarPlaceholder.getChildren().add(statusBarFooter.getRoot());
+
+        CommandBox commandBox = new CommandBox(this::executeCommand);
+        commandBoxPlaceholder.getChildren().add(commandBox.getRoot());
+    }
+
+    /**
+     * Sets the default size based on {@code guiSettings}.
+     */
+    private void setWindowDefaultSize(GuiSettings guiSettings) {
+        primaryStage.setHeight(guiSettings.getWindowHeight());
+        primaryStage.setWidth(guiSettings.getWindowWidth());
+        if (guiSettings.getWindowCoordinates() != null) {
+            primaryStage.setX(guiSettings.getWindowCoordinates().getX());
+            primaryStage.setY(guiSettings.getWindowCoordinates().getY());
+        }
+    }
+
+    /**
+     * Opens the help window or focuses on it if it's already opened.
+     */
+    @FXML
+    public void handleHelp() {
+        if (!helpWindow.isShowing()) {
+            helpWindow.show();
+        } else {
+            helpWindow.focus();
+        }
+    }
+
+    /**
+     * Opens the reminder window or focuses on it if it's already opened.
+     */
+    @FXML
+    public void handleReminderBox() {
+        if (!reminderWindow.isShowing()) {
+            reminderWindow.show();
+        } else {
+            reminderWindow.focus();
+        }
+    }
+
+    /**
+     * Switches to the reminder tab.
+     */
+    @FXML
+    public void handleReminder() throws CommandException, ParseException {
+        String userCommand = "change_tab tab/reminders";
+        executeCommand(userCommand);
+    }
+
+    /**
+     * Switches to the earnings tab.
+     */
+    @FXML
+    public void handleEarnings() throws ParseException, CommandException {
+        String userCommand = "change_tab tab/earnings";
+        executeCommand(userCommand);
+    }
+
+    /**
+     * Switches to the calendar tab sorted by the date.
+     */
+    @FXML
+    public void handleCalendarDate() throws ParseException, CommandException {
+        String userCommand = "change_tab tab/calendar";
+        executeCommand(userCommand);
+    }
+
+    /**
+     * Switches to the calendar tab sorted by the task.
+     */
+    @FXML
+    public void handleCalendarTask() throws ParseException, CommandException {
+        String userCommand = "change_tab tab/calendar";
+        executeCommand(userCommand);
+    }
+
+    /**
+     * Switches to the notepad tab.
+     */
+    @FXML
+    public void handleNotes() throws ParseException, CommandException {
+        String userCommand = "change_tab tab/notepad";
+        executeCommand(userCommand);
+    }
+
+    void show() {
+        primaryStage.show();
+    }
+
+    /**
+     * Closes the application.
+     */
+    @FXML
+    private void handleExit() {
+        GuiSettings guiSettings = new GuiSettings(primaryStage.getWidth(), primaryStage.getHeight(),
+                (int) primaryStage.getX(), (int) primaryStage.getY());
+        logic.setGuiSettings(guiSettings);
+        helpWindow.hide();
+        primaryStage.hide();
+    }
+
+    private void setUnknownFalse() {
+        this.unknown = false;
+    }
+
+    private void setUnknownTrue() {
+        this.unknown = true;
+    }
+
+    public EarningsListPanel getEarningsListPanel() {
+        return earningsListPanel;
+    }
+
+    public ReminderListPanel getReminderListPanel() {
+        return reminderListPanel;
+    }
+
+    public PersonListPanel getPersonListPanel() {
+        return personListPanel;
+    }
+
+    public TaskListPanel getTaskListPanel() {
+        return taskListPanel;
+    }
+
+    /**
+     * Executes the command and returns the result.
+     *
+     * @see seedu.address.logic.Logic#execute(String, boolean)
+     */
+    private CommandResult executeCommand(String commandText) throws CommandException, ParseException {
+        try {
+            CommandResult commandResult = logic.execute(commandText, this.unknown);
+            if (this.unknown) {
+                if (!commandResult.isUnknown()) {
+                    setUnknownFalse();
+                }
+            }
+            logger.info("Result: " + commandResult.getFeedbackToUser());
+            resultDisplay.setFeedbackToUser(commandResult.getFeedbackToUser());
+            reminderBox.setFeedbackToUser(commandResult.getFeedbackToUser());
+
+            if (commandResult.isShowHelp()) {
+                handleHelp();
+            }
+
+            if (commandResult.isExit()) {
+                handleExit();
+            }
+
+            if (commandResult.isUnknown()) {
+                setUnknownTrue();
+            }
+
+            return commandResult;
+
+        } catch (CommandException | ParseException e) {
+            logger.info("Invalid command: " + commandText);
+            resultDisplay.setFeedbackToUser(e.getMessage());
+            reminderBox.setFeedbackToUser(e.getMessage());
+            throw e;
+        }
+    }
+
+    public void hide() {
+        primaryStage.hide();
+    }
+
+    /**
+     * Shows the login window.
+     */
+    public void showLogin() {
+        loginWindow = new LoginWindow(new Stage(), logic);
+        loginWindow.show();
+    }
 }
