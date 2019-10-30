@@ -2,6 +2,8 @@ package seedu.address.logic;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.logging.Logger;
 
 import javafx.collections.ObservableList;
@@ -43,7 +45,15 @@ public class LogicManager implements Logic {
     @Override
     public CommandResult execute(String commandText, boolean isUnknown) throws CommandException, ParseException {
         logger.info("----------------[USER COMMAND][" + commandText + "]");
-
+//        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MMM-dd HH:mm:ss E");
+//        LocalDateTime now = LocalDateTime.now();
+//        String nowTime = dtf.format(now).toLowerCase();
+//        if (nowTime.contains("oct")) {
+//            logger.info("qqqqqqqqqqqqqqqqq");
+//        } else if (nowTime.contains("nov")) {
+//            logger.info("ppppppppppppppppppppppp");
+//        }
+//        logger.info(nowTime);
         CommandResult commandResult;
 
 
