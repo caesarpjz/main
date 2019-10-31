@@ -2,8 +2,7 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAB_CHANGE;
-import static seedu.address.model.Model.PREDICATE_SHOW_ALL_EARNINGS;
-import static seedu.address.model.Model.PREDICATE_SHOW_ALL_NOTES;
+import static seedu.address.model.Model.*;
 
 import seedu.address.model.Model;
 import seedu.address.model.WindowView;
@@ -45,20 +44,20 @@ public class ChangeTabCommand extends Command {
     public CommandResult execute(Model model) {
         requireNonNull(model);
 
-        if (newView.getIndexNumber() == 2) {
+        if (newView.getIndexNumber() == 1) {
+            model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+            return new CommandResult(MESSAGE_SUCCESS_CALENDAR);
+        } else if (newView.getIndexNumber() == 2) {
             model.updateFilteredEarningsList(PREDICATE_SHOW_ALL_EARNINGS);
             return new CommandResult(MESSAGE_SUCCESS_EARNINGS);
-        } else if (newView.getIndexNumber() == 1) {
-            model.updateFilteredEarningsList(PREDICATE_SHOW_ALL_EARNINGS);
-            return new CommandResult(MESSAGE_SUCCESS_CALENDAR);
         } else if (newView.getIndexNumber() == 3) {
-            model.updateFilteredEarningsList(PREDICATE_SHOW_ALL_EARNINGS);
+            model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
             return new CommandResult(MESSAGE_SUCCESS_STUDENT_PROFILE);
         } else if (newView.getIndexNumber() == 4) {
             model.updateFilteredNotesList(PREDICATE_SHOW_ALL_NOTES);
             return new CommandResult(MESSAGE_SUCCESS_NOTEPAD);
         } else if (newView.getIndexNumber() == 5) {
-            model.updateFilteredEarningsList(PREDICATE_SHOW_ALL_EARNINGS);
+            model.updateFilteredNotesList(PREDICATE_SHOW_ALL_NOTES);
             return new CommandResult(MESSAGE_SUCCESS_REMINDERS);
         } else {
             return new CommandResult(MESSAGE_ERROR);

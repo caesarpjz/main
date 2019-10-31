@@ -184,12 +184,6 @@ public class AddressBookParser {
             case UpdateEarningsCommand.COMMAND_WORD:
                 return new UpdateEarningsCommandParser().parse(arguments);
 
-            case LoginCommand.COMMAND_WORD:
-                return new LoginCommandParser().parse(arguments);
-
-            case RegisterAccountCommand.COMMAND_WORD:
-                return new RegisterAccountCommandParser().parse(arguments);
-
             case DeleteEarningsCommand.COMMAND_WORD:
                 return new DeleteEarningsCommandParser().parse(arguments);
 
