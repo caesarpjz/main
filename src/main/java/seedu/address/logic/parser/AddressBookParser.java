@@ -112,7 +112,6 @@ public class AddressBookParser {
         AddressBookParser.commandList.put(ListNotesCommand.COMMAND_WORD, ListNotesCommand.COMMAND_WORD);
         AddressBookParser.commandList.put(EditTaskCommand.COMMAND_WORD, EditTaskCommand.COMMAND_WORD);
         AddressBookParser.commandList.put(FindTaskCommand.COMMAND_WORD, FindTaskCommand.COMMAND_WORD);
-        AddressBookParser.commandList.put(LoginCommand.COMMAND_WORD, LoginCommand.COMMAND_WORD);
         AddressBookParser.commandList.put(LogoutCommand.COMMAND_WORD, LogoutCommand.COMMAND_WORD);
         AddressBookParser.commandList.put(TotalEarningsCommand.COMMAND_WORD, TotalEarningsCommand.COMMAND_WORD);
         AddressBookParser.commandList.put(ListClassCommand.COMMAND_WORD, ListClassCommand.COMMAND_WORD);
