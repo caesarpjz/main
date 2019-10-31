@@ -29,6 +29,8 @@ public interface Model {
 
     Predicate<Notes> PREDICATE_SHOW_ALL_NOTES = unused -> true;
 
+    Predicate<Reminder> PREDICATE_SHOW_ALL_REMINDERS = unused -> true;
+
     /**
      * Replaces user prefs data with the data in {@code userPrefs}.
      */

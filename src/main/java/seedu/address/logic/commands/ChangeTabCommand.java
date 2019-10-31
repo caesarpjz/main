@@ -2,7 +2,9 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAB_CHANGE;
-import static seedu.address.model.Model.*;
+import static seedu.address.model.Model.PREDICATE_SHOW_ALL_EARNINGS;
+import static seedu.address.model.Model.PREDICATE_SHOW_ALL_NOTES;
+import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
 import seedu.address.model.Model;
 import seedu.address.model.WindowView;
@@ -57,7 +59,8 @@ public class ChangeTabCommand extends Command {
             model.updateFilteredNotesList(PREDICATE_SHOW_ALL_NOTES);
             return new CommandResult(MESSAGE_SUCCESS_NOTEPAD);
         } else if (newView.getIndexNumber() == 5) {
-            model.updateFilteredNotesList(PREDICATE_SHOW_ALL_NOTES);
+            //model.updateFilteredNotesList(PREDICATE_SHOW_ALL_REMINDERS);
+            // Remember to create update filtered reminder list
             return new CommandResult(MESSAGE_SUCCESS_REMINDERS);
         } else {
             return new CommandResult(MESSAGE_ERROR);
