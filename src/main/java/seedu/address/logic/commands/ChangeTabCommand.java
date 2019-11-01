@@ -11,7 +11,6 @@ import static seedu.address.model.Model.PREDICATE_SHOW_ALL_TASKS;
 import seedu.address.model.Model;
 import seedu.address.model.WindowView;
 
-
 /**
  * Changes the tab of the address book.
  */
