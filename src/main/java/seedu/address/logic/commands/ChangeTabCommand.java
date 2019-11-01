@@ -53,7 +53,7 @@ public class ChangeTabCommand extends Command {
             return new CommandResult(MESSAGE_SUCCESS_CALENDAR);
         } else if (newView.getIndexNumber() == 2) {
             model.updateFilteredEarningsList(PREDICATE_SHOW_ALL_EARNINGS);
-            return new CommandResult(MESSAGE_SUCCESS_EARNINGS); 
+            return new CommandResult(MESSAGE_SUCCESS_EARNINGS);
         } else if (newView.getIndexNumber() == 3) {
             model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
             return new CommandResult(MESSAGE_SUCCESS_STUDENT_PROFILE);
