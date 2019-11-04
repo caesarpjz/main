@@ -4,13 +4,14 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.Objects;
 
+import seedu.address.model.Features;
 import seedu.address.model.classid.ClassId;
 
 /**
  * Represents a Student in the class of the user.
  * Guarantees: details are present and not null, field values are validated.
  */
-public class Person {
+public class Person implements Features {
 
     private final Name name;
     private final Picture picture;
